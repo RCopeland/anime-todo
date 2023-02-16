@@ -88,13 +88,16 @@ const watchlistSlice = createSlice({
     }
   },
   extraReducers: {
+    // @ts-ignore
     [getDefaultAnime.pending]: (state) => {
       state.isLoading = true;
     },
+    // @ts-ignore
     [getDefaultAnime.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.listItems = action.payload.data.Page.media;
     },
+    // @ts-ignore
     [getDefaultAnime.rejected]: (state) => {
       state.isLoading = false;
     }

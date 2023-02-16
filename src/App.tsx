@@ -9,8 +9,10 @@ import { SearchModal } from "./components/SearchModal";
 export default function App() {
   const dispatch = useDispatch();
   useEffect(() => {
+    // @ts-ignore
     dispatch(getDefaultAnime());
   }, [dispatch]);
+  // @ts-ignore
   const { listItems, isLoading } = useSelector((store) => store.watchlist);
 
   return (

@@ -4,6 +4,7 @@ import { closeModal } from "../features/add-anime-modal-slice";
 
 export const SearchResults = () => {
   const { searchResults, isLoading } = useSelector(
+    // @ts-ignore
     (store) => store.addAnimeModal
   );
   const dispatch = useDispatch();

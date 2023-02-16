@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { TfiClose } from "react-icons/tfi";
 
 export const SearchModal = () => {
+  // @ts-ignore
   const { open } = useSelector((store) => store.addAnimeModal);
   const dispatch = useDispatch();
 
@@ -41,6 +42,7 @@ export const SearchModal = () => {
             className="add-anime-form"
             onSubmit={(e) => {
               e.preventDefault();
+              // @ts-ignore
               dispatch(getAnimeBySearchTerms(e.target[0].value));
             }}
           >

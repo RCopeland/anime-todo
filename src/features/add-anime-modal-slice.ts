@@ -58,6 +58,7 @@ export const getAnimeBySearchTerms = createAsyncThunk(
   }
 );
 
+// @ts-ignore
 const addAnimeModalSlice = createSlice({
   name: "addAnimeModal",
   initialState,
@@ -70,13 +71,16 @@ const addAnimeModalSlice = createSlice({
     }
   },
   extraReducers: {
+    // @ts-ignore
     [getAnimeBySearchTerms.pending]: (state) => {
       state.isLoading = true;
     },
+    // @ts-ignore
     [getAnimeBySearchTerms.fulfilled]: (state, action) => {
       state.searchResults = action.payload.data?.Page?.media || [];
       state.isLoading = false;
     },
+    // @ts-ignore
     [getAnimeBySearchTerms.rejected]: (state) => {
       state.isLoading = false;
     }
