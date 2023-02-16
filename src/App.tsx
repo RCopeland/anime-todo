@@ -1,5 +1,5 @@
 import "./styles.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "./hooks";
 import { AnimeCard } from "./components/AnimeCard";
 import { AddAnimeCard } from "./components/AddAnimeCard";
 import { useEffect } from "react";
@@ -7,13 +7,12 @@ import { Anime, getDefaultAnime } from "./features/watchlist-slice";
 import { SearchModal } from "./components/SearchModal";
 
 export default function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    // @ts-ignore
     dispatch(getDefaultAnime());
   }, [dispatch]);
-  // @ts-ignore
-  const { listItems, isLoading } = useSelector((store) => store.watchlist);
+
+  const { listItems, isLoading } = useAppSelector((store) => store.watchlist);
 
   return (
     <section className="site-container">

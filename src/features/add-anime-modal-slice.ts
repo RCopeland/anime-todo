@@ -3,12 +3,14 @@ import { Anime } from "./watchlist-slice";
 
 export interface ModalState {
   open: boolean;
+  isLoading: boolean;
   searchResults: Anime[];
 }
 
 const initialState = {
   open: false,
-  searchResults: []
+  isLoading: false,
+  searchResults: [],
 };
 
 const url = "https://graphql.anilist.co";
@@ -36,7 +38,7 @@ const buildQuery = (searchTerms: string) => {
 
 const variables = {};
 
-export const getAnimeBySearchTerms = createAsyncThunk(
+export const getAnimeBySearchTerms: any = createAsyncThunk(
   "addAnimeModal/getAnimeBySearchTerms",
   (searchTerms: string) => {
     const query = buildQuery(searchTerms);
@@ -44,12 +46,12 @@ export const getAnimeBySearchTerms = createAsyncThunk(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
+        Accept: "application/json",
       },
       body: JSON.stringify({
         query,
-        variables
-      })
+        variables,
+      }),
     })
       .then((res) => res.json())
       .catch((e) => {
@@ -58,7 +60,6 @@ export const getAnimeBySearchTerms = createAsyncThunk(
   }
 );
 
-// @ts-ignore
 const addAnimeModalSlice = createSlice({
   name: "addAnimeModal",
   initialState,
@@ -68,23 +69,23 @@ const addAnimeModalSlice = createSlice({
     },
     closeModal: (state) => {
       state.open = false;
-    }
+    },
   },
   extraReducers: {
-    // @ts-ignore
-    [getAnimeBySearchTerms.pending]: (state) => {
+    [getAnimeBySearchTerms.pending]: (state: ModalState) => {
       state.isLoading = true;
     },
-    // @ts-ignore
-    [getAnimeBySearchTerms.fulfilled]: (state, action) => {
-      state.searchResults = action.payload.data?.Page?.media || [];
+    [getAnimeBySearchTerms.fulfilled]: (
+      state: ModalState,
+      { payload }: { payload: any }
+    ) => {
+      state.searchResults = payload.data?.Page?.media || [];
       state.isLoading = false;
     },
-    // @ts-ignore
-    [getAnimeBySearchTerms.rejected]: (state) => {
+    [getAnimeBySearchTerms.rejected]: (state: ModalState) => {
       state.isLoading = false;
-    }
-  }
+    },
+  },
 });
 
 export const { openModal, closeModal } = addAnimeModalSlice.actions;

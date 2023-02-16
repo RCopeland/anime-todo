@@ -1,13 +1,12 @@
-import { useSelector, useDispatch } from "react-redux";
 import { addItem, Anime } from "../features/watchlist-slice";
 import { closeModal } from "../features/add-anime-modal-slice";
+import { useAppSelector, useAppDispatch } from "../hooks";
 
 export const SearchResults = () => {
-  const { searchResults, isLoading } = useSelector(
-    // @ts-ignore
+  const { searchResults, isLoading } = useAppSelector(
     (store) => store.addAnimeModal
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <ul className="search-results">

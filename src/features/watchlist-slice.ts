@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export interface RootState {
+export interface WatchList {
   listItems: Anime[];
   isLoading: boolean;
 }
@@ -23,9 +23,9 @@ export interface Anime {
   bannerImage: string;
 }
 
-const initialState: RootState = {
+const initialState = {
   listItems: [],
-  isLoading: true
+  isLoading: true,
 };
 
 const url = "https://graphql.anilist.co";
@@ -49,22 +49,22 @@ const query = `
 }
 `;
 const variables = {
-  id: "15125"
+  id: "15125",
 };
 
-export const getDefaultAnime = createAsyncThunk(
+export const getDefaultAnime: any = createAsyncThunk(
   "watchList/getDefaultAnime",
   () => {
     return fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
+        Accept: "application/json",
       },
       body: JSON.stringify({
         query,
-        variables
-      })
+        variables,
+      }),
     })
       .then((res) => res.json())
       .catch((e) => {
@@ -77,31 +77,30 @@ const watchlistSlice = createSlice({
   name: "watchlist",
   initialState,
   reducers: {
-    removeItem: (state, { payload }) => {
+    removeItem: (state: WatchList, { payload }) => {
       state.listItems = state.listItems.filter((item) => item.id !== payload);
     },
-    addItem: (state, { payload }) => {
+    addItem: (state: WatchList, { payload }) => {
       const animeToAdd: Anime = payload;
-      console.log(payload, "payload");
       state.listItems.unshift(animeToAdd);
       state.listItems.pop();
-    }
+    },
   },
   extraReducers: {
-    // @ts-ignore
-    [getDefaultAnime.pending]: (state) => {
+    [getDefaultAnime.pending]: (state: WatchList) => {
       state.isLoading = true;
     },
-    // @ts-ignore
-    [getDefaultAnime.fulfilled]: (state, action) => {
+    [getDefaultAnime.fulfilled]: (
+      state: WatchList,
+      { payload }: { payload: any }
+    ) => {
       state.isLoading = false;
-      state.listItems = action.payload.data.Page.media;
+      state.listItems = payload.data.Page.media;
     },
-    // @ts-ignore
-    [getDefaultAnime.rejected]: (state) => {
+    [getDefaultAnime.rejected]: (state: WatchList) => {
       state.isLoading = false;
-    }
-  }
+    },
+  },
 });
 
 export const { addItem, removeItem } = watchlistSlice.actions;

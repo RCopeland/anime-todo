@@ -1,17 +1,16 @@
 import { SearchResults } from "./SearchResults";
 import cx from "classnames";
-import { useSelector, useDispatch } from "react-redux";
 import {
   getAnimeBySearchTerms,
-  closeModal
+  closeModal,
 } from "../features/add-anime-modal-slice";
 import { useEffect } from "react";
 import { TfiClose } from "react-icons/tfi";
+import { useAppDispatch, useAppSelector } from "../hooks";
 
 export const SearchModal = () => {
-  // @ts-ignore
-  const { open } = useSelector((store) => store.addAnimeModal);
-  const dispatch = useDispatch();
+  const { open } = useAppSelector((store) => store.addAnimeModal);
+  const dispatch = useAppDispatch();
 
   const close = () => {
     dispatch(closeModal());
@@ -42,8 +41,11 @@ export const SearchModal = () => {
             className="add-anime-form"
             onSubmit={(e) => {
               e.preventDefault();
-              // @ts-ignore
-              dispatch(getAnimeBySearchTerms(e.target[0].value));
+              dispatch(
+                getAnimeBySearchTerms(
+                  ((e.target as HTMLFormElement)[0] as HTMLInputElement).value
+                )
+              );
             }}
           >
             <div className="input-container">

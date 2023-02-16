@@ -1,9 +1,9 @@
-import { useDispatch } from "react-redux";
 import { openModal } from "../features/add-anime-modal-slice";
 import { FiPlusSquare } from "react-icons/fi";
+import { useAppDispatch } from "../hooks";
 
 export const AddAnimeCard = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <section className="add-anime-card">
       <p>Search for more anime to add to your ToDo list.</p>

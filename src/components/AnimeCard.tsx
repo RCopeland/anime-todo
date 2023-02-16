@@ -1,18 +1,18 @@
 import cx from "classnames";
-import { useDispatch } from "react-redux";
 import { Anime, removeItem } from "../features/watchlist-slice";
 import { FiTrash2 } from "react-icons/fi";
+import { useAppDispatch } from "../hooks";
 
 export const AnimeCard = ({
   animeData,
   index,
-  small
+  small,
 }: {
   animeData: Anime;
   index: number;
   small?: boolean;
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <section className={cx("anime-card", { "anime-card--small": small })}>
       <span className="anime-card__number">
